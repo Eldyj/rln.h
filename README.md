@@ -5,14 +5,14 @@ depends on <a href="https://Eldyj/github.com/cstr.h">cstr.h library</a>
 
 ## binds
 
-shift+h = move left
-shift+l = move right
-shift+j = to start
-shift+k = to end
-shift+b = previous word
-shift+n = next word
-shift+u = remove before cursor
-shift+i = remove after cursor
+- shift+h = move left
+- shift+l = move right
+- shift+j = to start
+- shift+k = to end
+- shift+b = previous word
+- shift+n = next word
+- shift+u = remove before cursor
+- shift+i = remove after cursor
 
 ## usage
 
