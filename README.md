@@ -23,5 +23,5 @@ char *str = rln("enter something: ");
 ```
 
 ```sh
-gcc -otest test.c -lcstr -lrln
+gcc -otest test.c -lrln -lcstr
 ```

@@ -6,7 +6,7 @@ bin:
 	mkdir -p bin
 
 src/rln.c: bin
-	$(CCF) -c -obin/rln.o src/rln.c
+	$(CCF) -c -obin/rln.o src/rln.c -lcstr
 
 bin/rln.o: src/rln.c
 	ar rcs bin/librln.a bin/rln.o
@@ -14,3 +14,8 @@ bin/rln.o: src/rln.c
 install: bin/rln.o
 	cp src/rln.h /usr/local/include
 	cp bin/librln.a /usr/local/lib
+
+examples/test.c: src/rln.c
+	$(CCF) -obin/test examples/test.c -lcstr bin/rln.o
+
+examples/: examples/test.c
