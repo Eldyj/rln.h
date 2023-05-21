@@ -120,11 +120,17 @@ char
 			}
 
 			case 'C': { // clear all
-				max = 0;
-				index = 0;
-				free(line);
-				line = malloc(sizeof(char) * 1);
-				*line = 0;
+				while (max > index) {
+					cstr_rm(&line, index+1);
+					--max;
+				}
+
+				while (index) {
+					cstr_rm(&line, index);
+					--index;
+					--max;
+				}
+
 				break;
 			}
 
@@ -137,6 +143,11 @@ char
 				index = cstr_find_space_before(line, index);
 				break;
 			}
+
+			case 'R': { //refresh current line
+				goto pr;
+				break;
+			}
 		
 			default: {
 				if (max < len) {
@@ -144,9 +155,11 @@ char
 					++index;
 					++max;
 				}
+				
 				break;
 			}
 		}
+		
 		pr:
 		printf("\r\033[K%s%s\033[%zuG", prompt, line, index+pl+1);
 		fflush(stdout);
