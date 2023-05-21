@@ -208,6 +208,8 @@ char
 			}
 		}
 		
+		line[max-1] = 0;
+		line[max] = 0;
 		pr:
 		printf("\r\033[K%s%s\033[%zuG", prompt, line, index+pl+1);
 		fflush(stdout);

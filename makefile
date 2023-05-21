@@ -21,7 +21,4 @@ examples/test.c: src/rln.c
 examples/test2.c: src/rln.c
 	$(CCF) -obin/test2 examples/test2.c bin/rln.o -lcstr
 
-src/rlnbin.c: src/rln.c
-	$(CCF) -obin/rln src/rlnbin.c bin/rln.o -lcstr
-
 examples/: examples/test.c examples/test2.c
