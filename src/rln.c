@@ -35,31 +35,8 @@ char
 				break;
 			}
 
-			case 'H': { // left
-				if (index)
-					--index;
-
-				break;
-			}
-
-			case 'L': { // right
-				if (index < max)
-					++index;
-					
-				break;
-			}
-
-			case 'J': { // to start
-				index = 0;
-				break;
-			}
-
-			case 'K': { // to end
-				index = max;
-				break;
-			}
-
-			case 'U': { // rm before
+			case 0x7F:
+			case 0x08: { // rm before; backspace
 				if (!index)
 					continue;
 				
@@ -69,16 +46,82 @@ char
 				break;
 			}
 
-			case 'I': { // rm after
-				if (index >= max)
-					continue;
+			case 27: {
+				char seq[2];
+				read(0, seq, 2);
+				
+				if (seq[0] == '[') {
+					switch (seq[1]) {
+						case 'D': { // left
+							if (index)
+								--index;
 
-				cstr_rm(&line, index+1);
-				--max;
+							break;
+						}
+
+						case 'C': { // right
+							if (index < max)
+								++index;
+								
+							break;
+						}
+
+						case 'A': { // up arrow
+							break;
+						}
+
+						case 'B': { // down arrow
+							break;
+						}
+
+						case '1': {
+							read(1, &c, 1);
+
+							if (c == ';') {
+								read(1, seq, 2);
+
+								if (seq[0] == '5') {
+									switch (seq[1]) {
+										case 'D': { // word left; ctrl+left
+											index = cstr_find_space_before(line, index);
+											break;
+										}
+
+										case 'C': { // word right; ctrl+right
+											index = cstr_find_space_after(line, index);
+											break;
+										}
+									}
+								}
+							}
+							break;
+						}
+
+						case 'P': { // rm after; delete
+							if (index >= max)
+									continue;
+
+							cstr_rm(&line, index+1);
+							--max;
+							break;
+						}
+					}
+				}
 				break;
 			}
 
-			case 'A': { // rm start
+			case 0x1: { // goto start; home char
+				index = 0;
+				break;
+			}
+
+			case 0x4:   // goto end; ctrl+d
+			case 0x5: { // goto end; end char
+				index = max;
+				break;
+			}
+
+			case 0x11: { // rm start ctrl+q
 				if (max) {
 					cstr_rm(&line, 1);
 					--max;
@@ -91,7 +134,7 @@ char
 				break;
 			}
 
-			case 'S': { // rm end
+			case 0x23: { // rm end ctrl+w
 				if (max) {
 					cstr_rm(&line, max);
 					--max;
@@ -100,7 +143,7 @@ char
 				break;
 			}
 
-			case 'Z': { //clear before
+			case 0xB: { //clear before ctrl+k
 				while (index) {
 					cstr_rm(&line, index);
 					--index;
@@ -110,7 +153,7 @@ char
 				break;
 			}
 
-			case 'X': { //clear after
+			case 0xC: { //clear after ctrl+l
 				while (max > index) {
 					cstr_rm(&line, index+1);
 					--max;
@@ -119,7 +162,7 @@ char
 				break;
 			}
 
-			case 'C': { // clear all
+			case 0xF: { // clear all ctrl+o
 				while (max > index) {
 					cstr_rm(&line, index+1);
 					--max;
@@ -134,17 +177,7 @@ char
 				break;
 			}
 
-			case 'N': { //next word
-				index = cstr_find_space_after(line, index);
-				break;
-			}
-
-			case 'B': { //prev word
-				index = cstr_find_space_before(line, index);
-				break;
-			}
-
-			case 'R': { //refresh current line
+			case 0x12: { //refresh current line ctrl+r
 				goto pr;
 				break;
 			}

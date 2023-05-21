@@ -1,23 +1,23 @@
 # rln (readline)
 
-readline library for unix with vim-like binds<br/>
+readline library for unix<br/>
 depends on <a href="https://Eldyj/github.com/cstr.h">cstr.h library</a>
 
 ## binds
 
-- shift+h = move left
-- shift+l = move right
-- shift+j = to start
-- shift+k = to end
-- shift+b = previous word
-- shift+n = next word
-- shift+u = remove before cursor
-- shift+i = remove after cursor
-- shift+a = remove first character
-- shift+s = remove last character
-- shift+z = clear before cursor
-- shift+x = clear after cursor
-- shift+c = clear all input
+- left = move left
+- right = move right
+- home (ctrl+a) = to start
+- end (ctrl+e), ctrl+d = to end
+- ctrl+left = previous word
+- ctrl+right = next word
+- backspace (ctrl+h) = remove before cursor
+- delete = remove after cursor
+- ctrl+q = remove first character
+- ctrl+w = remove last character
+- ctrl+k = clear before cursor
+- ctrl+l = clear after cursor
+- ctrl+o = clear all input
 
 ## usage
 

@@ -1,5 +1,6 @@
 #include "rln.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 int
 main(argc, argv)
@@ -17,5 +18,6 @@ main(argc, argv)
 
 	char *text = rln(prompt, count);
 	setenv("RLNRET", text, 1);
+	puts(text);
 	free(text);
 }
