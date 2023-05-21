@@ -18,6 +18,8 @@ depends on <a href="https://Eldyj/github.com/cstr.h">cstr.h library</a>
 - ctrl+k = clear before cursor
 - ctrl+l = clear after cursor
 - ctrl+o = clear all input
+- ctrl+r = swap current char with previous
+- ctrl+t = swap current char with next
 
 ## usage
 

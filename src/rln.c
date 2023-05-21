@@ -177,8 +177,23 @@ char
 				break;
 			}
 
-			case 0x12: { //refresh current line ctrl+r
-				goto pr;
+			case 0x12: { // swap prev char; ctrl+r
+				if (index > 1 && index < max) {
+					const char tmp = line[index-1];
+					line[index-1] = line[index-2];
+					line[index-2] = tmp;
+				}
+				
+				break;
+			}
+
+			case 0x14: { // swap next char; ctrl+t
+				if (index && index < max) {
+					const char tmp = line[index];
+					line[index] = line[index-1];
+					line[index-1] = tmp;
+				}
+
 				break;
 			}
 		
