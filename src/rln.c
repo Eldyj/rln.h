@@ -78,6 +78,28 @@ char
 				break;
 			}
 
+			case 'A': { // rm start
+				if (max) {
+					cstr_rm(&line, 1);
+					--max;
+
+					if (index) {
+						--index;
+					}
+				}
+				
+				break;
+			}
+
+			case 'S': { // rm end
+				if (max) {
+					cstr_rm(&line, max);
+					--max;
+				}
+				
+				break;
+			}
+
 			case 'Z': { //clear before
 				while (index) {
 					cstr_rm(&line, index);

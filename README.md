@@ -13,6 +13,8 @@ depends on <a href="https://Eldyj/github.com/cstr.h">cstr.h library</a>
 - shift+n = next word
 - shift+u = remove before cursor
 - shift+i = remove after cursor
+- shift+a = remove first character
+- shift+s = remove last character
 - shift+z = clear before cursor
 - shift+x = clear after cursor
 
