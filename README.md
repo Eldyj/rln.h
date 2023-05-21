@@ -17,6 +17,7 @@ depends on <a href="https://Eldyj/github.com/cstr.h">cstr.h library</a>
 - shift+s = remove last character
 - shift+z = clear before cursor
 - shift+x = clear after cursor
+- shift+c = clear all input
 
 ## usage
 

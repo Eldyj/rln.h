@@ -119,6 +119,15 @@ char
 				break;
 			}
 
+			case 'C': { // clear all
+				max = 0;
+				index = 0;
+				free(line);
+				line = malloc(sizeof(char) * 1);
+				*line = 0;
+				break;
+			}
+
 			case 'N': { //next word
 				index = cstr_find_space_after(line, index);
 				break;
