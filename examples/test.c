@@ -6,7 +6,7 @@ int
 main(void)
 	/* VOID */
 {
-	char *s = rln("enter something: ");
+	char *s = rln("enter something: ", 100);
 	puts(s);
 	free(s);
 }

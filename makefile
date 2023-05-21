@@ -16,6 +16,10 @@ install: bin/rln.o
 	cp bin/librln.a /usr/local/lib
 
 examples/test.c: src/rln.c
-	$(CCF) -obin/test examples/test.c -lcstr bin/rln.o
+	$(CCF) -obin/test examples/test.c bin/rln.o -lcstr
 
-examples/: examples/test.c
+examples/test2.c: src/rln.c
+	$(CCF) -obin/test2 examples/test2.c bin/rln.o -lcstr
+
+examples/: examples/test.c examples/test2.c
+

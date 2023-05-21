@@ -1,13 +1,17 @@
-#include <termios.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <cstr.h>
-#include "rln.h"
+#ifndef RLN_C
+#	define RLN_C
+
+#	include <termios.h>
+#	include <unistd.h>
+#	include <stdio.h>
+#	include <stdlib.h>
+#	include <cstr.h>
+#	include "rln.h"
 
 char
-*rln(prompt)
+*rln(prompt, len)
 	const char *const prompt;
+	const size_t len;
 {
 	const size_t pl = cstr_len(prompt);
 	struct termios orig_termios;
@@ -85,9 +89,11 @@ char
 			}
 		
 			default: {
-				cstr_insert(&line, c, index);
-				++index;
-				++max;
+				if (max < len) {
+					cstr_insert(&line, c, index);
+					++index;
+					++max;
+				}
 				break;
 			}
 		}
@@ -101,3 +107,16 @@ char
 	write(1, "\n", 1);
 	return line;
 }
+
+void
+rln_to(buf, prompt, len)
+	char *const *const buf;
+	const char *const prompt;
+	const size_t len;
+{
+	char *t = rln(prompt, len);
+	cstr_copy(buf, t);
+	free(t);
+}
+
+#endif /* !RLN_C */
