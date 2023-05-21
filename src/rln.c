@@ -78,6 +78,25 @@ char
 				break;
 			}
 
+			case 'Z': { //clear before
+				while (index) {
+					cstr_rm(&line, index);
+					--index;
+					--max;
+				}
+
+				break;
+			}
+
+			case 'X': { //clear after
+				while (max > index) {
+					cstr_rm(&line, index+1);
+					--max;
+				}
+
+				break;
+			}
+
 			case 'N': { //next word
 				index = cstr_find_space_after(line, index);
 				break;
