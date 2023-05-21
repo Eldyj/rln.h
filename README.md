@@ -18,10 +18,13 @@ depends on <a href="https://Eldyj/github.com/cstr.h">cstr.h library</a>
 
 ```c
 #include <rln.h>
-
+//...
 char *str = rln("enter something: ");
+//...
+free(str);
 ```
 
-```sh
-gcc -otest test.c -lrln -lcstr
-```
+## examples
+
+<a href="./examples">here</a>
+
