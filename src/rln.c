@@ -19,7 +19,7 @@ char
 	struct termios raw_termios = orig_termios;
 	raw_termios.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw_termios);
-	char *line = malloc(sizeof(char) * 1);
+	char *line = cstr_alloc(0);
 	*line = 0;
 	size_t index = 0;
 	size_t max = 0;
@@ -40,7 +40,7 @@ char
 				if (!index)
 					continue;
 				
-				cstr_rm(&line, index);
+				cstr_rem(&line, index-1);
 				--max;
 				--index;
 				break;
@@ -101,7 +101,7 @@ char
 							if (index >= max)
 									continue;
 
-							cstr_rm(&line, index+1);
+							cstr_rem(&line, index);
 							--max;
 							break;
 						}
@@ -120,10 +120,11 @@ char
 				index = max;
 				break;
 			}
-
-			case 0x11: { // rm start ctrl+q
+			
+			// TODO: find bind
+			/*case 'A': { // rm start
 				if (max) {
-					cstr_rm(&line, 1);
+					cstr_rem(&line, 0);
 					--max;
 
 					if (index) {
@@ -134,46 +135,38 @@ char
 				break;
 			}
 
-			case 0x23: { // rm end ctrl+w
+			// TODO: find bind
+			case 'S': { // rm end
 				if (max) {
-					cstr_rm(&line, max);
+					cstr_rem(&line, max-1);
 					--max;
 				}
+
+				if (max < index)
+					index = max;
 				
 				break;
-			}
+			}*/
 
 			case 0xB: { //clear before ctrl+k
-				while (index) {
-					cstr_rm(&line, index);
-					--index;
-					--max;
-				}
+				cstr_lshift(&line, index);
+				max -= index;
+				index = 0;
 
 				break;
 			}
 
 			case 0xC: { //clear after ctrl+l
-				while (max > index) {
-					cstr_rm(&line, index+1);
-					--max;
-				}
-
+				line = cstr_realloc(line, index);
+				line[index] = 0;
+				max = index;
 				break;
 			}
 
 			case 0xF: { // clear all ctrl+o
-				while (max > index) {
-					cstr_rm(&line, index+1);
-					--max;
-				}
-
-				while (index) {
-					cstr_rm(&line, index);
-					--index;
-					--max;
-				}
-
+				cstr_free(line);
+				line = cstr_alloc(0);
+				*line = index = 0;
 				break;
 			}
 
@@ -199,7 +192,7 @@ char
 		
 			default: {
 				if (max < len) {
-					cstr_insert(&line, c, index);
+					cstr_put(&line, c, index);
 					++index;
 					++max;
 				}
@@ -207,9 +200,7 @@ char
 				break;
 			}
 		}
-		
-		line[max-1] = 0;
-		line[max] = 0;
+
 		pr:
 		printf("\r\033[K%s%s\033[%zuG", prompt, line, index+pl+1);
 		fflush(stdout);
@@ -223,12 +214,12 @@ char
 
 void
 rln_to(buf, prompt, len)
-	char *const *const buf;
+	char *const buf;
 	const char *const prompt;
 	const size_t len;
 {
 	char *t = rln(prompt, len);
-	cstr_copy(buf, t);
+	cstr_copy(t, buf);
 	free(t);
 }
 

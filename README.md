@@ -1,7 +1,7 @@
 # rln (readline)
 
 readline library for unix<br/>
-depends on <a href="https://Eldyj/github.com/cstr.h">cstr.h library</a>
+depends on <a href="https://github.com/Eldyj/cstr.h/tree/rwrt">cstr.h library</a>
 
 ## binds
 
@@ -13,8 +13,8 @@ depends on <a href="https://Eldyj/github.com/cstr.h">cstr.h library</a>
 - ctrl+right = next word
 - backspace (ctrl+h) = remove before cursor
 - delete = remove after cursor
-- ctrl+q = remove first character
-- ctrl+w = remove last character
+- TODO = remove first character
+- TODO = remove last character
 - ctrl+k = clear before cursor
 - ctrl+l = clear after cursor
 - ctrl+o = clear all input
