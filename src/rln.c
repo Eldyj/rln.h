@@ -4,7 +4,6 @@
 #	include <termios.h>
 #	include <unistd.h>
 #	include <stdio.h>
-#	include <stdlib.h>
 #	include <cstr.h>
 #	include "rln.h"
 
@@ -157,8 +156,7 @@ char
 			}
 
 			case 0xC: { //clear after ctrl+l
-				line = cstr_realloc(line, index);
-				line[index] = 0;
+				cstr_rshift(&line, max-index);
 				max = index;
 				break;
 			}
@@ -220,7 +218,7 @@ rln_to(buf, prompt, len)
 {
 	char *t = rln(prompt, len);
 	cstr_copy(t, buf);
-	free(t);
+	cstr_free(t);
 }
 
 #endif /* !RLN_C */
