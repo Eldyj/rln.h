@@ -26,7 +26,7 @@ char
 	goto pr;
 	
 	while (1) {
-		read(0, &c, 1);
+		read(STDIN_FILENO, &c, 1);
 
 		switch (c) {
 			case '\n': { // end
@@ -47,7 +47,7 @@ char
 
 			case 27: {
 				char seq[2];
-				read(0, seq, 2);
+				read(STDIN_FILENO, seq, 2);
 				
 				if (seq[0] == '[') {
 					switch (seq[1]) {
@@ -74,10 +74,10 @@ char
 						}
 
 						case '1': {
-							read(1, &c, 1);
+							read(STDIN_FILENO, &c, 1);
 
 							if (c == ';') {
-								read(1, seq, 2);
+								read(STDIN_FILENO, seq, 2);
 
 								if (seq[0] == '5') {
 									switch (seq[1]) {
