@@ -120,8 +120,7 @@ char
 				break;
 			}
 			
-			// TODO: find bind
-			/*case 'A': { // rm start
+			case 0x6: { // rm start; ctrl+f
 				if (max) {
 					cstr_rem(&line, 0);
 					--max;
@@ -134,8 +133,7 @@ char
 				break;
 			}
 
-			// TODO: find bind
-			case 'S': { // rm end
+			case 0x7: { // rm end; ctrl+g
 				if (max) {
 					cstr_rem(&line, max-1);
 					--max;
@@ -145,26 +143,32 @@ char
 					index = max;
 				
 				break;
-			}*/
+			}
 
 			case 0xB: { //clear before ctrl+k
+				if (index == max)
+					goto clear;
+				
 				cstr_lshift(&line, index);
 				max -= index;
 				index = 0;
-
 				break;
 			}
 
 			case 0xC: { //clear after ctrl+l
+				if (!index)
+					goto clear;
+
 				cstr_rshift(&line, max-index);
 				max = index;
 				break;
 			}
 
 			case 0xF: { // clear all ctrl+o
+				clear:
 				cstr_free(line);
 				line = cstr_alloc(0);
-				*line = index = 0;
+				*line = index = max = 0;
 				break;
 			}
 
