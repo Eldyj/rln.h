@@ -23,6 +23,7 @@ char
 	size_t index = 0;
 	size_t max = 0;
 	char c = 0;
+	uint8_t nonp = 0;
 	goto pr;
 	
 	while (1) {
@@ -45,7 +46,7 @@ char
 				break;
 			}
 
-			case 27: {
+			case 0x1B: {
 				char seq[2];
 				read(STDIN_FILENO, seq, 2);
 				
@@ -172,6 +173,11 @@ char
 				break;
 			}
 
+			case 0x10: { // toggle non-printable; ctrl+p
+				nonp = 1 - nonp;
+				break;
+			}
+
 			case 0x12: { // swap prev char; ctrl+r
 				if (index > 1 && index < max) {
 					const char tmp = line[index-1];
@@ -204,8 +210,18 @@ char
 		}
 
 		pr:
-		printf("\r\033[K%s%s\033[%zuG", prompt, line, index+pl+1);
+		char *print = line;
+		
+		if (nonp) {
+			print = cstr_replaced(line, "\t", "→");
+			cstr_replace(&print, " ", "∘");
+		}
+		
+		printf("\r\033[K%s%s\033[%zuG", prompt, print, index+pl+1);
 		fflush(stdout);
+
+		if (nonp)
+			cstr_free(print);
 	}
 
 	done:

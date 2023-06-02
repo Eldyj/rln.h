@@ -20,6 +20,7 @@ depends on <a href="https://github.com/Eldyj/cstr.h/tree/rwrt">cstr.h library</a
 - ctrl+o = clear all input
 - ctrl+r = swap current char with previous
 - ctrl+t = swap current char with next
+- ctrl+p = non-printable mode toggle
 
 ## usage
 
